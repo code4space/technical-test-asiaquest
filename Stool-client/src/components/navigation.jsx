@@ -11,6 +11,7 @@ import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { useState } from "react";
@@ -100,6 +101,10 @@ export default function Navigation() {
                             title={'Notifications'}
                             alert={2}
                             handleClick={() => { handleNavigate('/notification') }} />
+                        < SubCategory1
+                            Icon={SmartToyIcon}
+                            title={'Ask AI'}
+                            handleClick={() => { handleNavigate('/ask-ai') }} />
                         < SubCategory1
                             Icon={LogoutOutlinedIcon}
                             title={'Logout'}

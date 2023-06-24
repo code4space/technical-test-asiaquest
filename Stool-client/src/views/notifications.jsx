@@ -3,7 +3,8 @@
 
 export default function NotificationPage () {
     return (
-        <div className="task-container">
+        <div className="task-container notification">
+            <h2>Notification</h2>
             <div className="task">
                 <table>
                     <thead>

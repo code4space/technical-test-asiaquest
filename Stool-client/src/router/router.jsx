@@ -10,6 +10,9 @@ import TaskDetailPage from "../views/detailTask";
 import MissedTaskPage from "../views/missedTask";
 import NotificationPage from "../views/notifications";
 import QuickNotePage from "../views/quickNote";
+import RoutinePage from "../views/routine";
+import TodoPage from "../views/todo";
+import AskAIPage from "../views/askAI";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +53,18 @@ const router = createBrowserRouter([
             {
                 path: '/notification',
                 element: <NotificationPage />
+            },
+            {
+                path: '/routine',
+                element: <RoutinePage />
+            },
+            {
+                path: '/todo',
+                element: <TodoPage />
+            },
+            {
+                path: '/ask-ai',
+                element: <AskAIPage/>
             },
             {
                 path: '/task/detail/:id',

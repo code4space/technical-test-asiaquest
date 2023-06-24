@@ -8,6 +8,9 @@ import './assets/style/remainingTask.scss'
 import './assets/style/login.scss'
 import './assets/style/task.scss'
 import './assets/style/quicknote.scss'
+import './assets/style/todo.scss'
+import './assets/style/askAI.scss'
+import './assets/style/notification.scss'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
