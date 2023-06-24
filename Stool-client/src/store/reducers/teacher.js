@@ -1,18 +1,15 @@
-import { POKEMON } from "../actions/actionType";
+import { TEACHER_TASK } from "../actions/actionType";
 
 const initialState = {
-  pokemon: [],
-  id: null,
-  name: "",
   task: [],
 };
 
 export default function TeacherReducer(state = initialState, action) {
   switch (action.type) {
-    case POKEMON:
+    case TEACHER_TASK:
       return {
         ...state,
-        pokemon: action.payload,
+        task: action.payload,
       };
     default:
       return state;

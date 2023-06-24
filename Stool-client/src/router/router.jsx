@@ -13,6 +13,9 @@ import QuickNotePage from "../views/quickNote";
 import RoutinePage from "../views/routine";
 import TodoPage from "../views/todo";
 import AskAIPage from "../views/askAI";
+import AddTaskPage from "../views/addTask";
+import StudentCompletedTaskPage from "../views/studentCompletedTask";
+import TaskStudentCommentPage from "../views/taskStudentComment";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +60,18 @@ const router = createBrowserRouter([
             {
                 path: '/routine',
                 element: <RoutinePage />
+            },
+            {
+                path: '/add/task',
+                element: <AddTaskPage />
+            },
+            {
+                path: '/task/student/complete',
+                element: <StudentCompletedTaskPage />
+            },
+            {
+                path: '/task/student/comment',
+                element: <TaskStudentCommentPage />
             },
             {
                 path: '/todo',

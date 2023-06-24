@@ -71,7 +71,7 @@ function Note({ options = false, id }) {
                     <textarea
                         className="p"
                         placeholder="write your note here.."
-                        value={contentTemp}
+                        value={contentTemp || ""}
                         onChange={(e) => setContentTemp(e.target.value)}
                     />
                     <div className="button">

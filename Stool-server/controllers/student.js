@@ -185,6 +185,7 @@ class StudentController {
           model: Notification,
           attributes: ["id", "description"],
         },
+        order: [['createdAt', 'DESC']]
       });
 
       let result = [];

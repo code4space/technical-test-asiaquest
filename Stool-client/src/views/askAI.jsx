@@ -1,17 +1,49 @@
 import { Textarea } from "../components/input";
 import SendIcon from '@mui/icons-material/Send';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { useState } from "react";
+import { baseUrl } from "../constant/url";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 
 export default function AskAIPage() {
+    const [prompt, setPrompt] = useState('')
+    const [answer, setAnswer] = useState('')
+    const [isGenerate, setIsGenerate] = useState(false)
+
+    async function generateAnswer(e) {
+        e.preventDefault()
+        setIsGenerate(true)
+        try {
+            const response = await axios.post(`${baseUrl}/ask-ai`, {
+                prompt
+            }, {
+                headers: {
+                    access_token: localStorage.getItem('access_token')
+                }
+            });
+
+            if (response.statusText !== "OK") {
+                throw new Error("Something went wrong");
+            }
+
+            const result = response.data.message;
+            setAnswer(result);
+            setIsGenerate(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <div className="task-container AI-page">
             <h2>Ask AI</h2>
-            <form>
-                <textarea placeholder="What is the best daily routine to follow?" required></textarea>
-                <button type="submit" clas><SendIcon/></button>
+            <form onSubmit={generateAnswer}>
+                <textarea value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder="What is the best daily routine to follow?" required></textarea>
+                <button type="submit"><SendIcon /></button>
             </form>
-            <p><b>AI: </b>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit quod, at laudantium eum officia illum nihil ipsa possimus corporis dicta sint placeat accusamus veniam architecto. Quod repudiandae animi tenetur, praesentium eum cum voluptas ipsa culpa nihil sed non repellendus fugiat expedita voluptates similique mollitia asperiores ab deleniti beatae nulla. Optio fugit pariatur dolor magni, modi ipsa. Tenetur vel quia laboriosam aspernatur, velit placeat enim veritatis. Veritatis, voluptatum voluptates corporis laborum a, totam veniam eaque nisi consequatur tempore repellendus cupiditate voluptate ratione! Nesciunt illo blanditiis temporibus explicabo beatae, repudiandae, mollitia ducimus excepturi facilis in officia minima hic repellat veritatis possimus! Aut.</p>
+            <p><b>AI: </b>{answer}{isGenerate && 'generating...'}</p>
         </div>
     )
 }

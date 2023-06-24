@@ -31,31 +31,6 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
         navigate(path)
     }
 
-    const dispatch = useDispatch();
-    // const task = useSelector((state) => {
-    //     return state.StudentReducer.task;
-    // });
-    // const notification = useSelector((state) => {
-    //     return state.StudentReducer.notification;
-    // });
-    // const quickNote = useSelector((state) => {
-    //     return state.NoteReducer.quickNote;
-    // });
-    // const routine = useSelector((state) => {
-    //     return state.NoteReducer.routine;
-    // });
-    // const todo = useSelector((state) => {
-    //     return state.NoteReducer.todo;
-    // });
-    // console.log(todo)
-
-    useEffect(() => {
-        // dispatch(getTask());
-        // dispatch(getNotification());
-        // dispatch(getQuickNote());
-        // dispatch(getRoutine());
-        // dispatch(getTodo());
-    }, []);
 
     return (
         <div className={id === active ? "sub-category-container active" : "sub-category-container"}>
@@ -90,11 +65,29 @@ export default function Navigation() {
     const [active, setActive] = useState(null)
     const [isMinimize, setMinimize] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const [countNew, setCountNew] = useState(0)
+
     const navigate = useNavigate()
 
     function handleNavigate(route) {
         navigate(route)
     }
+
+    const dispatch = useDispatch();
+    const notification = useSelector((state) => state.StudentReducer.notification);
+    useEffect(() => {
+        if (localStorage.getItem('role') === 'student') dispatch(getNotification())
+    }, [dispatch]);
+
+    useEffect(() => {
+        let temp = 0
+        notification.forEach(el => {
+            if (!el.status) {
+                temp++;
+            }
+        });
+        setCountNew(temp)
+    }, [notification]);
 
     return (
         <>
@@ -103,17 +96,30 @@ export default function Navigation() {
                     <h2><SchoolIcon style={{ fontSize: '50px' }} /> Schoot</h2>
                     <div className="category">
                         <h4>Menu</h4>
-                        < SubCategory Icon={AssignmentOutlinedIcon}
-                            title={'Tasks'}
-                            option={[
-                                { name: 'Remaining Task', path: '/task/remaining' },
-                                { name: 'Completed Task', path: '/task/completed' },
-                                { name: 'Missed Task', path: '/task/missed' },
-                            ]}
-                            id={1}
-                            active={active}
-                            setActive={setActive}
-                        />
+                        {localStorage.getItem('role') === "student" ?
+                            < SubCategory Icon={AssignmentOutlinedIcon}
+                                title={'Tasks'}
+                                option={[
+                                    { name: 'Remaining Task', path: '/task/remaining' },
+                                    { name: 'Completed Task', path: '/task/completed' },
+                                    { name: 'Missed Task', path: '/task/missed' },
+                                ]}
+                                id={1}
+                                active={active}
+                                setActive={setActive}
+                            /> :
+                            < SubCategory Icon={AssignmentOutlinedIcon}
+                                title={'Tasks'}
+                                option={[
+                                    { name: 'Add Task', path: '/add/task' },
+                                    { name: 'Completed Task', path: '/task/student/complete' },
+                                ]}
+                                id={1}
+                                active={active}
+                                setActive={setActive}
+                            />
+                        }
+
                         < SubCategory Icon={NoteAltOutlinedIcon}
                             title={'Notes'}
                             option={[
@@ -125,11 +131,14 @@ export default function Navigation() {
                             active={active}
                             setActive={setActive}
                         />
-                        < SubCategory1
+
+                        {localStorage.getItem('role') === "student" ? < SubCategory1
                             Icon={NotificationsNoneIcon}
                             title={'Notifications'}
-                            alert={2}
-                            handleClick={() => { handleNavigate('/notification') }} />
+                            alert={countNew}
+                            handleClick={() => { handleNavigate('/notification') }} /> :
+                            null}
+
                         < SubCategory1
                             Icon={SmartToyIcon}
                             title={'Ask AI'}
@@ -144,8 +153,8 @@ export default function Navigation() {
                         <div className="profile">
                             <AccountCircleIcon />
                             <div>
-                                <h3>Dior Jaya</h3>
-                                <span>Student grade 6</span>
+                                <h3>{localStorage.getItem('name')}</h3>
+                                <span>{localStorage.getItem('role')}</span>
                             </div>
                             <MoreHorizOutlinedIcon />
                         </div>
@@ -158,8 +167,8 @@ export default function Navigation() {
                             onMouseLeave={() => setIsHovered(false)}
                             onClick={() => setMinimize(!isMinimize)}>{isMinimize && !isHovered ? <MenuOutlinedIcon /> : <ChevronLeftOutlinedIcon />}</span>
                         <div className="introduction">
-                            <h2>Welcome, Dior&nbsp;<CelebrationIcon /></h2>
-                            <p>Ready to giving some task?</p>
+                            <h2>Welcome, {localStorage.getItem('name')}&nbsp;<CelebrationIcon /></h2>
+                            <p>{localStorage.getItem('role') === 'student' ? 'Are you ready to complete the task?' : 'Teachers at the Heart of Education'}</p>
                         </div>
                         <div className="right-nav">
                             <NotificationsNoneIcon />

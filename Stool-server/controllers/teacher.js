@@ -235,7 +235,15 @@ class TeacherController {
             "StudentId",
             "createdAt",
             "updatedAt",
-          ]
+          ],
+          include: {
+            model: Task,
+            attributes: [
+              'description',
+              'title',
+              'date',
+            ]
+          }
         });
 
         if (result) {

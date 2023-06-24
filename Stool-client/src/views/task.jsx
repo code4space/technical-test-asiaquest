@@ -1,5 +1,5 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Input, InputFile, Textarea } from "../components/input";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Textarea } from "../components/input";
 import { useState } from "react";
 import HelpIcon from '@mui/icons-material/Help';
 import Swal from "sweetalert2";
@@ -44,7 +44,7 @@ export default function TaskPage() {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
-                        title: 'Your work has been saved',
+                        title: 'Success assign your task',
                         showConfirmButton: false,
                         timer: 1500
                     })
