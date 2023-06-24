@@ -222,12 +222,7 @@ class NoteController {
       const { role, id } = req.user;
       const { title, list } = req.body;
 
-      let temp = [
-        { desc: "Jogging", status: true },
-        { desc: "Read Book", status: true },
-        { desc: "Slep", status: false },
-        { desc: "Jogging", status: true },
-      ];
+      let temp = list;
 
       temp = temp.map((el) => {
         return JSON.stringify(el);

@@ -67,7 +67,7 @@ const router = createBrowserRouter([
                 element: <AskAIPage/>
             },
             {
-                path: '/task/detail/:id',
+                path: '/task/detail',
                 element: <TaskDetailPage />
             },
         ]

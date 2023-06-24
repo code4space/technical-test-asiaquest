@@ -23,15 +23,13 @@ export default function RemainingTaskPage() {
         setIsLoading(false);
     }, [task]);
 
-    console.log(remainingTask); // Check the value of remainingTask
-
     function handleNavigate(index) {
         const data = remainingTask[index];
         navigate(`/task/start`, {state: data})
     }
 
     if (isLoading) {
-        return <div>Loading...</div>; // or any loading indicator
+        return <div>Loading...</div>;
     } else {
         return (
             <div className="card-container">
@@ -47,31 +45,6 @@ export default function RemainingTaskPage() {
                         </div>
                     )
                 })}
-                <div className="card">
-                    <h3 className='title'>Pembagian</h3>
-                    <p>Kerjakan Pembagian berikut tanpa menggunakan calculator, gunakan cara sederhana, dan akan bapak test ketika waktunya tiba</p>
-                    <div><PersonIcon /><b>Author:</b> Bambang Sulid</div>
-                    <div><ArrowCircleUpIcon /><b>Release Date:</b> 25 January 2024, 15:00</div>
-                    <div><AccessTimeIcon /><b>Deadline:</b> 26 January 2024, 15:00</div>
-                    <button onClick={handleNavigate}>Start</button>
-                </div>
-                <div className="card">
-                    <h3 className='title'>Pembagian</h3>
-                    <p>Kerjakan Pembagian berikut tanpa menggunakan calculator, gunakan cara sederhana, dan akan bapak test ketika waktunya tiba</p>
-                    <div><PersonIcon /><b>Author:</b> Bambang Sulid</div>
-                    <div><ArrowCircleUpIcon /><b>Release Date:</b> 25 January 2024, 15:00</div>
-                    <div><AccessTimeIcon /><b>Deadline:</b> 26 January 2024, 15:00</div>
-                    <button onClick={handleNavigate}>Start</button>
-                </div>
-                <div className="card">
-                    <h3 className='title'>Pembagian</h3>
-                    <p>Kerjakan Pembagian berikut tanpa menggunakan calculator, gunakan cara sederhana, dan akan bapak test ketika waktunya tiba</p>
-                    <div><PersonIcon /><b>Author:</b> Bambang Sulid</div>
-                    <div><ArrowCircleUpIcon /><b>Release Date:</b> 25 January 2024, 15:00</div>
-                    <div><AccessTimeIcon /><b>Deadline:</b> 26 January 2024, 15:00</div>
-                    <button onClick={handleNavigate}>Start</button>
-                </div>
-
             </div>
         )
     }

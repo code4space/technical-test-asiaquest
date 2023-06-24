@@ -174,8 +174,6 @@ class TeacherController {
         },
       });
 
-      console.log(studentTask);
-
       let task = await Task.findOne({
         where: { id: studentTask.TaskId },
       });
