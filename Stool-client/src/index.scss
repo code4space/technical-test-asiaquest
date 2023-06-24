@@ -27,6 +27,20 @@ body {
   justify-content: center;
 }
 
+@mixin button ($color: #262626) {
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: white;
+  border: 1px solid $color;
+  cursor: pointer;
+  color: $color;
+
+  &:hover {
+    background-color: $color;
+    color: white;
+  }
+}
+
 ::-webkit-scrollbar {
   background:none;
   width: 8px;

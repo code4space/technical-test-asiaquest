@@ -11,19 +11,19 @@ function passwordStrengthParameter(password) {
 
     // Check the password against the defined patterns
     if (patterns.strong.test(password)) {
-        return {status: "strong", color: '#33c770'};
+        return { status: "strong", color: '#33c770' };
     } else if (patterns.medium.test(password)) {
-        return {status: "medium", color: '#ceb532'};
+        return { status: "medium", color: '#ceb532' };
     } else if (password.length > 5) {
-        return {status: "weak", color: '#ff2929'};
+        return { status: "weak", color: '#ff2929' };
     } else {
-        return {status: "very weak", color: 'gray'};
+        return { status: "very weak", color: 'gray' };
     }
 }
 
 export function PasswordInput({ state, setState, value, placeHolder, strength }) {
     const [isHide, setIsHide] = useState(true)
-    const [password, setPassword] = useState({desc: '', color: ''})
+    const [password, setPassword] = useState({ desc: '', color: '' })
     function handleIsHide() {
         setIsHide(!isHide)
     }
@@ -44,7 +44,7 @@ export function PasswordInput({ state, setState, value, placeHolder, strength })
         <div className='inputBox'>
             <input type={isHide ? 'password' : 'text'} required value={value ? state[value] : state} onChange={handleChangeState} />
             <label>{placeHolder}</label>
-            {strength && <p style={{border: `1px solid ${password.color}`, color: password.color}} className='strength'>{password.status}</p>}
+            {strength && <p style={{ border: `1px solid ${password.color}`, color: password.color }} className='strength'>{password.status}</p>}
             {isHide ?
                 <VisibilityOutlinedIcon onClick={handleIsHide} /> :
                 <VisibilityOffOutlinedIcon onClick={handleIsHide} />
@@ -59,13 +59,13 @@ export function Input({ state, setState, value, placeHolder }) {
         else setState({ ...state, [value]: e.target.value })
     }
 
-    function checkValue () {
+    function checkValue() {
         if (value) return state[value]
         else return state
     }
 
     return (
-        <div className={ checkValue().length ? "active-input inputBox" : "inputBox"}>
+        <div className={checkValue().length ? "active-input inputBox" : "inputBox"}>
             <input type='text' required value={value ? state[value] : state} onChange={handleChangeState} />
             <label>{placeHolder}</label>
         </div>
@@ -78,36 +78,55 @@ export function InputEmail({ state, setState, value, placeHolder }) {
         else setState({ ...state, [value]: e.target.value })
     }
 
-    function checkValue () {
+    function checkValue() {
         if (value) return state[value]
         else return state
     }
 
     return (
-        <div className={ checkValue().length ? "active-input inputBox" : "inputBox"}>
+        <div className={checkValue().length ? "active-input inputBox" : "inputBox"}>
             <input type='email' required value={value ? state[value] : state} onChange={handleChangeState} />
             <label>{placeHolder}</label>
         </div>
     )
 }
 
-export function Textarea({ state, setState, value, placeHolder }) {
+export function Textarea({ readOnly=false, state, setState, value, placeHolder }) {
     function handleChangeState(e) {
         if (!value) setState(e.target.value)
         else setState({ ...state, [value]: e.target.value })
     }
 
-    function checkValue () {
+    function checkValue() {
         if (value) return state[value]
         else return state
     }
 
-    
-    console.log(state)
     return (
-        <div className={ checkValue().length ? "active-input inputBox" : "inputBox"}>
-            <textarea required value={value ? state[value] : state} onChange={handleChangeState} />
+        <div className={checkValue().length ? "active-input inputBox" : "inputBox"}>
+            <textarea required readOnly={readOnly ? 'readonly' : null} value={value ? state[value] : state} onChange={handleChangeState} />
             <label>{placeHolder}</label>
         </div>
     )
+}
+
+export function InputFile({ state, setState, value }) {
+  const handleChangeState = (event) => {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+      setState(file);
+    }
+  };
+
+  return (
+    <div className="inputBox">
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleChangeState}
+        required
+      />
+    </div>
+  );
 }
