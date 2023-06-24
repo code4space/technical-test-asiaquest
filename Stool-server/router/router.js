@@ -38,10 +38,10 @@ route.post("/routine", NoteController.addRoutine);
 route.delete("/routine/:id", NoteController.deleteRoutine);
 
 // Todo
-route.get("/todo", NoteController.getRoutine);
-route.patch("/todo/:id", NoteController.updateRoutine);
-route.post("/todo", NoteController.addRoutine);
-route.delete("/todo/:id", NoteController.deleteRoutine);
+route.get("/todo", NoteController.getTodo);
+route.patch("/todo/:id", NoteController.updateTodo);
+route.post("/todo", NoteController.addTodo);
+route.delete("/todo/:id", NoteController.deleteTodo);
 
 // AI API
 route.post("/ask-ai", AI.askAI);

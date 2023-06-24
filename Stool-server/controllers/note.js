@@ -1,12 +1,7 @@
 const {
-  Teacher,
-  Task,
-  Student,
-  StudentTasks,
-  Notification,
-  StudentNotification,
   Note,
   Routine,
+  Todo
 } = require("../models");
 
 class NoteController {
@@ -76,6 +71,78 @@ class NoteController {
         where: { id: +req.params.id },
       });
       return res.status(200).json({ message: "note deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async getTodo(req, res, next) {
+    try {
+      const { role, id } = req.user;
+      let todo;
+      if (role === "student") {
+        todo = await Todo.findAll({
+          where: {
+            StudentId: id,
+          },
+          attributes: ["id", "task", "status", "comment"],
+        });
+      } else {
+        todo = await Todo.findAll({
+          where: {
+            TeacherId: id,
+          },
+          attributes: ["id", "task", "status", "comment"],
+        });
+      }
+
+      return res.status(200).json({ todo });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async updateTodo(req, res, next) {
+    try {
+      const { task, status, comment } = req.body;
+      await Todo.update(
+        { task, status, comment },
+        {
+          where: { id: +req.params.id },
+        }
+      );
+      return res.status(202).json({ message: "Update Todo success" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async addTodo(req, res, next) {
+    try {
+      const { role, id } = req.user;
+      const { task, status, comment } = req.body;
+
+      if (role === "student") {
+        await Todo.create({ task, status, comment, StudentId: id });
+      } else {
+        await Todo.create({ task, status, comment, TeacherId: id });
+      }
+      return res.status(201).json({ message: "new Todo has been created" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async deleteTodo(req, res, next) {
+    try {
+      await Todo.destroy({
+        where: { id: +req.params.id },
+      });
+      return res.status(200).json({ message: "Todo deleted successfully" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
