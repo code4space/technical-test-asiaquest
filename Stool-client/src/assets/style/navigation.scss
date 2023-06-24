@@ -1,0 +1,232 @@
+@import '../../index.scss';
+
+.navigation-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.side-navigation {
+    height: 100%;
+    width: 230px;
+    max-width: 230px;
+    background-color: $secondary-color;
+    padding: 15px;
+    display: flex;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex-direction: column;
+    transition: 0.3s all ease;
+
+    h2 {
+        @include center-horizontal;
+        color: white;
+        display: flex;
+        gap: 10px;
+        font-weight: 400;
+        margin-bottom: 30px;
+    }
+}
+
+.side-navigation.minimize {
+    max-width: 0px;
+    padding: 10px 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 200px);
+    height: 100%;
+    transition: 0.3s all ease;
+}
+
+.container.minimize {
+    width: 100%;
+}
+
+.category:last-child {
+    margin-top: auto;
+}
+
+.category h4 {
+    color: #ffffff3a;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.sub-category-container {
+    padding: 8px 10px;
+    border-bottom: 1px solid $gray;
+
+    ul {
+        max-height: 0px;
+        transition: 0.5s all ease;
+        overflow: hidden;
+    }
+
+    ul li {
+        list-style: none;
+        color: $gray;
+        cursor: pointer;
+        margin-top: 10px;
+        padding: 10px 5px;
+        @include center-horizontal;
+        gap: 6px;
+        font-size: 15px;
+        border-radius: 10px;
+        transition: 0.1s all ease;
+
+        svg {
+            font-size: 12px;
+        }
+
+        &:hover {
+            background-color: #3a3a3a;
+        }
+    }
+
+    ul li.active {
+        color: rgb(187, 187, 187);
+        font-weight: 500;
+    }
+}
+
+.active.sub-category-container {
+    ul {
+        max-height: 500px;
+    }
+
+    .sub-category {
+        color: white;
+
+        svg:last-child {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.sub-category {
+    color: $gray;
+    @include center-horizontal;
+    gap: 10px;
+    cursor: pointer;
+    transition: 0.3s all ease;
+
+    svg:last-child {
+        margin-left: auto;
+    }
+
+    &:hover {
+        color: white;
+    }
+
+    span {
+        margin-left: auto;
+
+        p {
+            background-color: white;
+            text-decoration: none;
+            color: $primary-black;
+            border-radius: 5px;
+            padding: 0 8px;
+            font-size: 12px;
+        }
+    }
+}
+
+.top-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    padding: 10px 30px;
+    box-shadow: 0px 1px 3px rgba($color: #000000, $alpha: .2);
+    background-color: white;
+    position: relative;
+
+    span {
+        position: absolute;
+        cursor: pointer;
+        left: -11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        border-radius: 50%;
+        transition: 0.3s all ease;
+    }
+}
+
+.introduction h2 {
+    @include center-horizontal;
+}
+
+.introduction p {
+    font-size: 13px;
+    color: $gray1;
+}
+
+.minimize.top-navigation {
+    span {
+        transform: rotate(180deg);
+        position: relative;
+    }
+
+    .introduction {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+}
+
+.right-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.right-nav svg {
+    cursor: pointer;
+}
+
+.profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    svg:first-child {
+        font-size: 50px;
+        color: white;
+    }
+
+    svg:last-child {
+        font-size: 25px;
+        cursor: pointer;
+        color: $gray;
+        margin-left: auto;
+        color: white;
+    }
+
+    div {
+        margin-left: 10px;
+
+        h3 {
+            color: white;
+            line-height: 1;
+            font-size: 15px;
+        }
+
+        span {
+            color: $gray;
+            font-size: 11px;
+        }
+    }
+}
+
+.page {
+    height: calc(100% - 80px);
+    width: 100%;
+    padding: 10px 30px;
+}
