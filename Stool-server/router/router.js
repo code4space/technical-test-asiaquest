@@ -18,6 +18,12 @@ route.use(validation)
 route.post("/task", TeacherController.addTask);
 route.patch("/comment", TeacherController.addComment);
 route.get("/completed-task", TeacherController.completedTask);
+route.patch("/do-task", StudentController.doTask);
+route.get("/student/task", StudentController.getMyTask);
+
+// notification
+route.get("/notification", StudentController.getMyNotification);
+route.patch("/notification", StudentController.readNotification);
 
 // AI API
 route.post("/ask-ai", AI.askAI);

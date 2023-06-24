@@ -1,5 +1,5 @@
 const { matchPassword } = require("../helper/bycrypt");
-const formatDate = require("../helper/dateFormatter");
+const { formatDate } = require("../helper/dateFormatter");
 const { getToken } = require("../helper/jwt");
 const {
   Teacher,
@@ -37,7 +37,7 @@ class TeacherController {
 
       const payload = { id: user.id, fullName: user.fullName, role: "teacher" };
       const access_token = getToken(payload);
-      res.status(200).json({ access_token });
+      res.status(200).json({ access_token, name: user.fullName });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
@@ -142,7 +142,7 @@ class TeacherController {
   static async addComment(req, res, next) {
     try {
       const { comment, TaskId, StudentId } = req.body;
-      const { role } = req.user;
+      const { role, fullName } = req.user;
       if (role !== "teacher") {
         return res.status(401).json({ message: "Forbidden" });
       }
@@ -168,7 +168,31 @@ class TeacherController {
         }
       );
 
-      res.status(201).json({ message: "add comment success" });
+      let studentTask = await StudentTasks.findOne({
+        where: {
+          TaskId,
+          StudentId,
+        },
+      });
+
+      console.log(studentTask);
+
+      let task = await Task.findOne({
+        where: { id: studentTask.TaskId },
+      });
+
+      let notification = await Notification.create({
+        description: `The task titled "${task.title}" has been commented by ${fullName}`,
+        GradeId: task.GradeId,
+      });
+
+      await StudentNotification.create({
+        status: false,
+        NotificationId: notification.id,
+        StudentId
+      });
+
+      res.status(202).json({ message: "add comment success" });
     } catch (error) {
       console.log(error);
       if (
@@ -211,7 +235,6 @@ class TeacherController {
       }
 
       res.status(200).json({ completed: studentTask.flat(Infinity) });
-      
     } catch (error) {
       console.log(error);
       if (
