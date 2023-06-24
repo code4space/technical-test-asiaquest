@@ -1,22 +1,26 @@
+import React, { useEffect, useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRoutine } from '../store/actions/noteAction';
+import axios from 'axios';
+import { baseUrl } from '../constant/url';
 
-function Note({ options = false, setState, state, id, discardNote }) {
+function Note({ options = false, id }) {
+    const dispatch = useDispatch();
     const [active, setActive] = useState(true);
     const [title, setTitle] = useState('This is title');
-    const [content, setContent] = useState(['Drink water']);
+    const [content, setContent] = useState([]);
     const [titleTemp, setTitleTemp] = useState('');
-    const [contentTemp, setContentTemp] = useState(['']);
+    const [contentTemp, setContentTemp] = useState([]);
 
-    function handleConfirm() {
-        setActive(false);
-        let temp = [...state];
-        temp[id].title = titleTemp;
-        temp[id].content = contentTemp;
-
-        setTitle(titleTemp);
-        setContent(contentTemp);
-        setState(temp);
+    async function handleConfirm() {
+        await axios({
+            url: `${baseUrl}/routine/${id}`,
+            method: 'PATCH',
+            headers: { access_token: localStorage.getItem('access_token') },
+            data: { title: titleTemp, list: contentTemp }
+        });
+        dispatch(getRoutine());
     }
 
     function cancel() {
@@ -29,40 +33,58 @@ function Note({ options = false, setState, state, id, discardNote }) {
         setContentTemp(content);
     }
 
-    function handleDiscard() {
-        discardNote(id); // Call the prop function instead
-    }
-    
-    function handleChange (e, index) {
-        let temp = [...contentTemp]
-        temp[index] = e.target.value;
-        setContentTemp(temp)
-    }
-
-    function deleteOption (index) {
-        let temp = [...contentTemp]
-        temp.splice(index, 1)
-        setContentTemp(temp)
+    async function handleDiscard() {
+        await axios({
+            url: `${baseUrl}/routine/${id}`,
+            method: 'DELETE',
+            headers: { access_token: localStorage.getItem('access_token') },
+        });
+        dispatch(getRoutine());
     }
 
-    function addOption (index) {
-        let temp = [...contentTemp]
-        temp.push('todo')
-        setContentTemp(temp)
+    function handleChange(e, index) {
+        const temp = [...contentTemp];
+        temp[index].desc = e.target.value;
+        setContentTemp(temp);
+    }
+
+    function deleteOption(index) {
+        const temp = [...contentTemp];
+        temp.splice(index, 1);
+        setContentTemp(temp);
+    }
+
+    function addOption() {
+        const temp = [...contentTemp];
+        temp.push({ desc: 'todo', status: false });
+        setContentTemp(temp);
+    }
+
+    async function checked(e, index) {
+        let temp = [...content]
+        temp[index].status = !temp[index].status
+        await axios({
+            url: `${baseUrl}/routine/${id}`,
+            method: 'PATCH',
+            headers: { access_token: localStorage.getItem('access_token') },
+            data: {title: title, list: temp}
+        });
+        dispatch(getRoutine());
     }
 
     useEffect(() => {
         if (options) {
             setActive(options.active);
             setTitle(options.title);
-            setContent(options.content);
+            setContent(options.list);
             setTitleTemp(options.title);
-            setContentTemp(options.content);
+            setContentTemp(options.list);
         } else {
             setTitleTemp(title);
             setContentTemp(content);
         }
-    }, []); // Empty dependency array to run the effect only once
+    }, [options]);
+
     return (
         <div className={active ? 'note active' : 'note'}>
             {active ? (
@@ -74,17 +96,18 @@ function Note({ options = false, setState, state, id, discardNote }) {
                         value={titleTemp}
                         onChange={(e) => setTitleTemp(e.target.value)}
                     />
-                    {contentTemp.map((el, i) => {
-                        return (
-                            <div className='checkbox' key={i}>
-                                {/* <input type="checkbox" disabled name={el} id={el} /> */}
-                                <input type="text" value={contentTemp[i]} style={{marginLeft: '25px'}} onChange={(e) => handleChange(e, i)}/>
-                                <DeleteIcon onClick={() => deleteOption(i)}/>
-                                {/* <input type='text' value={state[id].content[i]} onChange={(e) => handleChange(e, i)}>{el}</input> */}
-                            </div>
-                        )
-                    })}
-                    <button onClick={addOption}>add +</button>
+                    {contentTemp.map((el, i) => (
+                        <div className="checkbox" key={i}>
+                            <input
+                                type="text"
+                                value={el.desc}
+                                style={{ marginLeft: '25px' }}
+                                onChange={(e) => handleChange(e, i)}
+                            />
+                            <DeleteIcon onClick={() => deleteOption(i)} />
+                        </div>
+                    ))}
+                    <button onClick={addOption} className="add-routine">add +</button>
                     <div className="button">
                         <div className="left">
                             <button className="cancel" onClick={cancel}>
@@ -106,48 +129,63 @@ function Note({ options = false, setState, state, id, discardNote }) {
                         {title}
                         <b onClick={edit}>&#9998;</b>
                     </h2>
-                    {content.map((el, i) => {
-                        return (
-                            <div className='checkbox' key={i}><input type="checkbox" name={el} id={el} />
-                                <label htmlFor={el}>{el}</label></div>
-                        )
-                    })}
+                    {content.map((el, i) => (
+                        <div className="checkbox" key={i}>
+                            <input type="checkbox" name={el.desc} id={el.desc} checked={el.status}
+                                onChange={(e) => checked(e, i)} />
+                            <label htmlFor={el.desc}>{el.desc}</label>
+                        </div>
+                    ))}
                 </>
             )}
         </div>
     );
 }
 
-export default function RoutinePage() {
-    const [options, setOptions] = useState([
-        {
-            id: 1,
-            title: 'Kegiatan Sore hari',
-            content: ['makan', 'minum', 'jajan'],
-            active: false
-        },
-        {
-            id: 2,
-            title: 'write your title',
-            content: ['belajar', 'kerja', 'tidur'],
-            active: false
-        },
-    ]);
+function RoutinePage() {
+    const [options, setOptions] = useState([]); // Changed to array from object
+    const dispatch = useDispatch();
+    const routine = useSelector((state) => state.NoteReducer.routine);
 
-    function handleAdd() {
-        let temp = [...options];
-        temp.push({ title: 'write your title', content: ['my list'], active: true });
+    useEffect(() => {
+        dispatch(getRoutine());
+    }, [dispatch]);
+
+    useEffect(() => {
+        setOptions(routine);
+    }, [routine]);
+
+    async function handleAdd() {
+        await axios({
+            url: `${baseUrl}/routine`,
+            method: 'POST',
+            headers: { access_token: localStorage.getItem('access_token') },
+            data: { title: 'write your title', list: [{ desc: 'My list', status: false }] }
+        });
+        dispatch(getRoutine());
+    }
+
+    function discardNote(id) {
+        const temp = [...options];
+        temp.splice(id, 1);
         setOptions(temp);
     }
 
     return (
         <div className="quicknote-container">
-            {options.map((el, i) => {
-                return <Note id={i} key={i} options={el} state={options} setState={setOptions} />;
-            })}
+            {options.map((el, i) => (
+                <Note
+                    id={el.id}
+                    key={i}
+                    options={el}
+                    discardNote={discardNote}
+                />
+            ))}
             <button className="add" onClick={handleAdd}>
                 add +
             </button>
         </div>
     );
 }
+
+export default RoutinePage;

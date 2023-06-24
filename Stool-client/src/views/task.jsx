@@ -1,26 +1,29 @@
-import { useParams } from "react-router-dom";
-import { Input, InputFile, Textarea } from "../components/input";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Textarea } from "../components/input";
 import { useState } from "react";
 import HelpIcon from '@mui/icons-material/Help';
 import Swal from "sweetalert2";
+import axios from "axios";
+import { baseUrl } from "../constant/url";
 
 
 export default function TaskPage() {
-    const params = useParams();
-    const { id } = params;
+    const location = useLocation()
+    const navigate = useNavigate()
+    const { state } = location;
 
     const [data, setData] = useState("")
     function question() {
         Swal.fire({
             icon: 'question',
             iconHtml: '?',
-            html: `<div><b>Author:</b> Bambang Sulid</div>
-            <div><b>Release Date:</b> 25 January 2024, 15:00</div>
-            <div><b>Deadline:</b> 26 January 2024, 15:00</div>`
+            html: `<div><b>Author:</b> ${state.author}</div>
+            <div><b>Release Date:</b> ${state.releaseDate}</div>
+            <div><b>Deadline:</b> ${state.deadline}</div>`
         })
     }
 
-    function submit(e) {
+    async function submit(e) {
         e.preventDefault()
         Swal.fire({
             title: 'Are you sure?',
@@ -30,15 +33,25 @@ export default function TaskPage() {
             confirmButtonColor: '#3085d6',
             // cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Your work has been saved',
-                    showConfirmButton: false,
-                    timer: 1500
-                  })
+                await axios({
+                    url: baseUrl + `/do-task/${state.id}`,
+                    method: "patch",
+                    headers: { access_token: localStorage.getItem("access_token") },
+                    data: { answer: data }
+                }).then(() => {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Success assign your task',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    navigate('/task/remaining')
+                }).catch(err => {
+                    console.log(err)
+                })
             }
         })
     }
@@ -47,9 +60,9 @@ export default function TaskPage() {
         <div className="task-container">
             <form className="task" onSubmit={submit}>
                 <span><b></b></span>
-                <h2>Task</h2>
+                <h2>{state.title}</h2>
                 <span onClick={question}><HelpIcon className="question" /></span>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit neque ipsum autem qui, atque architecto ex nostrum explicabo ipsa nihil obcaecati nulla modi nemo deserunt totam unde laboriosam eum possimus. Perferendis culpa repudiandae quis vitae neque libero, itaque officiis praesentium nihil delectus, facilis dolore, laudantium ea. Enim, quis eligendi eos veritatis exercitationem quae amet, molestias ullam doloremque similique, odio reiciendis asperiores? Quidem velit iste maiores. In animi odio fugiat repudiandae error molestias, voluptas, eius natus ipsum possimus, placeat quia et qui! Et ullam, voluptas quisquam sapiente doloremque alias dolorem quod illum deleniti, corrupti ad. Minus nisi ullam omnis possimus vitae.</p>
+                <p>{state.description}</p>
                 <br />
                 <h3>Your Answer <i>answer required! (image)</i></h3>
                 {/* <InputFile state={data} setState={setData} /> */}

@@ -174,8 +174,6 @@ class TeacherController {
         },
       });
 
-      console.log(studentTask);
-
       let task = await Task.findOne({
         where: { id: studentTask.TaskId },
       });
@@ -237,7 +235,15 @@ class TeacherController {
             "StudentId",
             "createdAt",
             "updatedAt",
-          ]
+          ],
+          include: {
+            model: Task,
+            attributes: [
+              'description',
+              'title',
+              'date',
+            ]
+          }
         });
 
         if (result) {

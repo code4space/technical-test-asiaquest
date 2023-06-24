@@ -1,27 +1,17 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPokemon } from "../store/actions/fetch";
-
-
 export default function HomePage() {
-
-    // Test Redux
-    const dispatch = useDispatch();
-    const pokemon = useSelector((state) => {
-        return state.TeacherReducer.pokemon;
-    });
-
-    useEffect(() => {
-        dispatch(getPokemon());
-    }, []);
-
     return (
         <div className="home">
-            <h1>You have no assignments at this time</h1>
-            <p>
-                If you find yourself with nothing to do, you can either work on
-                completing your existing to-do list or create a new one.
-            </p>
+            {localStorage.getItem('role') === 'student' ?
+                <>
+                    <h1>Don't be afraid to grow</h1>
+                    <p>
+                    Embrace challenges as opportunities for growth. Every setback is a chance to learn and improve.
+                    </p></> :
+                <>
+                    <h1>Our power to make a good impact</h1>
+                    <p>
+                    Have the power to make a lasting impact on students' lives. Our guidance and support can shape their future.
+                    </p></>}
         </div>
     );
 }

@@ -3,6 +3,7 @@ const {
   Routine,
   Todo
 } = require("../models");
+const { formatDate, getDate } = require("../helper/dateFormatter");
 
 class NoteController {
   static async getQuickNote(req, res, next) {
@@ -86,7 +87,7 @@ class NoteController {
           where: {
             StudentId: id,
           },
-          attributes: ["id", "task", "status", "comment"],
+          attributes: ["id", "task", "status", "comment", 'createdAt'],
         });
       } else {
         todo = await Todo.findAll({
@@ -96,6 +97,11 @@ class NoteController {
           attributes: ["id", "task", "status", "comment"],
         });
       }
+
+      todo = todo.map(el => {
+        const {id, task, status, comment, createdAt} = el
+        return {id, task, status, comment, createdAt:formatDate(createdAt)}
+      })
 
       return res.status(200).json({ todo });
     } catch (error) {
@@ -191,12 +197,7 @@ class NoteController {
     try {
       const { title, list } = req.body;
 
-      let temp = [
-        { desc: "Jogging", status: false },
-        { desc: "Read Book", status: true },
-        { desc: "Slep", status: false },
-        { desc: "Jogging", status: true },
-      ];
+      let temp = list
 
       temp = temp.map((el) => {
         return JSON.stringify(el);
@@ -222,12 +223,7 @@ class NoteController {
       const { role, id } = req.user;
       const { title, list } = req.body;
 
-      let temp = [
-        { desc: "Jogging", status: true },
-        { desc: "Read Book", status: true },
-        { desc: "Slep", status: false },
-        { desc: "Jogging", status: true },
-      ];
+      let temp = list;
 
       temp = temp.map((el) => {
         return JSON.stringify(el);

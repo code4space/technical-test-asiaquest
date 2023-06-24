@@ -10,6 +10,7 @@ import './assets/style/task.scss'
 import './assets/style/quicknote.scss'
 import './assets/style/todo.scss'
 import './assets/style/askAI.scss'
+import './assets/style/addTask.scss'
 import './assets/style/notification.scss'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -14,7 +14,10 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNotification, getTask } from "../store/actions/studentAction";
+import { getQuickNote, getRoutine, getTodo, quickNoteFetchSuccess } from "../store/actions/noteAction";
 
 function SubCategory({ Icon, title, option, id, active, setActive }) {
 
@@ -24,9 +27,10 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
         if (id === active) return setActive(null)
         setActive(id)
     }
-    function navigationTo (path) {
+    function navigationTo(path) {
         navigate(path)
     }
+
 
     return (
         <div className={id === active ? "sub-category-container active" : "sub-category-container"}>
@@ -37,7 +41,7 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
             </div>
             <ul>
                 {option.map((el, i) => {
-                    return <li className={location.pathname === option[i].path ? "active":null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon/>:<CircleOutlinedIcon/>}{el.name}</li>
+                    return <li className={location.pathname === option[i].path ? "active" : null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon /> : <CircleOutlinedIcon />}{el.name}</li>
                 })}
             </ul>
         </div>
@@ -61,30 +65,66 @@ export default function Navigation() {
     const [active, setActive] = useState(null)
     const [isMinimize, setMinimize] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const [countNew, setCountNew] = useState(0)
+
     const navigate = useNavigate()
 
     function handleNavigate(route) {
         navigate(route)
     }
 
+    function logout() {
+        localStorage.clear()
+        navigate('/login')
+    }
+
+    const dispatch = useDispatch();
+    const notification = useSelector((state) => state.StudentReducer.notification);
+    useEffect(() => {
+        if (localStorage.getItem('role') === 'student') dispatch(getNotification())
+    }, [dispatch]);
+
+    useEffect(() => {
+        let temp = 0
+        notification.forEach(el => {
+            if (!el.status) {
+                temp++;
+            }
+        });
+        setCountNew(temp)
+    }, [notification]);
+
     return (
         <>
             <div className="navigation-container">
                 <div className={isMinimize ? "side-navigation minimize" : "side-navigation"}>
-                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Schoot</h2>
+                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Stool</h2>
                     <div className="category">
                         <h4>Menu</h4>
-                        < SubCategory Icon={AssignmentOutlinedIcon}
-                            title={'Tasks'}
-                            option={[
-                                { name: 'Remaining Task', path: '/task/remaining' },
-                                { name: 'Completed Task', path: '/task/completed' },
-                                { name: 'Missed Task', path: '/task/missed' },
-                            ]}
-                            id={1}
-                            active={active}
-                            setActive={setActive}
-                        />
+                        {localStorage.getItem('role') === "student" ?
+                            < SubCategory Icon={AssignmentOutlinedIcon}
+                                title={'Tasks'}
+                                option={[
+                                    { name: 'Remaining Task', path: '/task/remaining' },
+                                    { name: 'Completed Task', path: '/task/completed' },
+                                    { name: 'Missed Task', path: '/task/missed' },
+                                ]}
+                                id={1}
+                                active={active}
+                                setActive={setActive}
+                            /> :
+                            < SubCategory Icon={AssignmentOutlinedIcon}
+                                title={'Tasks'}
+                                option={[
+                                    { name: 'Add Task', path: '/add/task' },
+                                    { name: 'Completed Task', path: '/task/student/complete' },
+                                ]}
+                                id={1}
+                                active={active}
+                                setActive={setActive}
+                            />
+                        }
+
                         < SubCategory Icon={NoteAltOutlinedIcon}
                             title={'Notes'}
                             option={[
@@ -96,11 +136,14 @@ export default function Navigation() {
                             active={active}
                             setActive={setActive}
                         />
-                        < SubCategory1
+
+                        {localStorage.getItem('role') === "student" ? < SubCategory1
                             Icon={NotificationsNoneIcon}
                             title={'Notifications'}
-                            alert={2}
-                            handleClick={() => { handleNavigate('/notification') }} />
+                            alert={countNew}
+                            handleClick={() => { handleNavigate('/notification') }} /> :
+                            null}
+
                         < SubCategory1
                             Icon={SmartToyIcon}
                             title={'Ask AI'}
@@ -108,15 +151,15 @@ export default function Navigation() {
                         < SubCategory1
                             Icon={LogoutOutlinedIcon}
                             title={'Logout'}
-                            handleClick={() => { handleNavigate('/login') }} />
+                            handleClick={logout} />
                     </div>
                     <div className="category">
                         <h4>Profile</h4>
                         <div className="profile">
                             <AccountCircleIcon />
                             <div>
-                                <h3>Dior Jaya</h3>
-                                <span>Student grade 6</span>
+                                <h3>{localStorage.getItem('name')}</h3>
+                                <span>{localStorage.getItem('role')}</span>
                             </div>
                             <MoreHorizOutlinedIcon />
                         </div>
@@ -129,8 +172,8 @@ export default function Navigation() {
                             onMouseLeave={() => setIsHovered(false)}
                             onClick={() => setMinimize(!isMinimize)}>{isMinimize && !isHovered ? <MenuOutlinedIcon /> : <ChevronLeftOutlinedIcon />}</span>
                         <div className="introduction">
-                            <h2>Welcome, Dior&nbsp;<CelebrationIcon /></h2>
-                            <p>Ready to giving some task?</p>
+                            <h2>Welcome, {localStorage.getItem('name')}&nbsp;<CelebrationIcon /></h2>
+                            <p>{localStorage.getItem('role') === 'student' ? 'Are you ready to complete the task?' : 'Teachers at the Heart of Education'}</p>
                         </div>
                         <div className="right-nav">
                             <NotificationsNoneIcon />

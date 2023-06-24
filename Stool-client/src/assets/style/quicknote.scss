@@ -6,9 +6,14 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    
+
     &::-webkit-scrollbar-thumb {
         background-color: $gray1;
+    }
+
+    
+    .add {
+        @include button()
     }
 
     .note {
@@ -67,42 +72,38 @@
         }
     }
 
-    .add {
-        @include button()
-    }
-
     .note.active {
         background-color: white;
         border-radius: 10px;
         box-shadow: 3px 3px 3px rgba($color: #000000, $alpha: 0.3);
         padding: 10px;
-        
+
         .button {
             display: flex;
             justify-content: space-between;
-            
+
             .left {
                 gap: 10px;
                 display: flex;
             }
         }
 
-        .checkbox + button {
+        .checkbox+button {
             @include button();
             width: 80px;
             margin-bottom: 20px;
             margin-top: 5px;
             height: 25px;
         }
-        
+
         .discard {
             @include button($color: #e44848)
         }
-        
+
         .cancel {
             @include button($color: #e4a648)
         }
-        
+
         .confirm {
             @include button($color: #487fe4)
         }
@@ -149,9 +150,29 @@
             margin-left: 10px;
         }
     }
+
     p {
         max-width: 90%;
         white-space: normal;
         word-wrap: break-word;
     }
+}
+
+
+.add-routine {
+    border-radius: 10px;
+    padding: 10px 20px;
+    background-color: white;
+    border: 1px solid #262626;
+    cursor: pointer;
+    color: #262626;
+    width: 80px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    height: 25px;
+
+    // &:hover {
+    //     color: white;
+    //     background-color: $primary-black;
+    // }
 }
