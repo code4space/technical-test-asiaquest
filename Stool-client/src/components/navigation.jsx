@@ -13,7 +13,6 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useState } from "react";
 
 function SubCategory({ Icon, title, option, id, active, setActive }) {
@@ -24,7 +23,7 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
         if (id === active) return setActive(null)
         setActive(id)
     }
-    function navigationTo(path) {
+    function navigationTo (path) {
         navigate(path)
     }
 
@@ -37,7 +36,7 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
             </div>
             <ul>
                 {option.map((el, i) => {
-                    return <li className={location.pathname === option[i].path ? "active" : null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon /> : <CircleOutlinedIcon />}{el.name}</li>
+                    return <li className={location.pathname === option[i].path ? "active":null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon/>:<CircleOutlinedIcon/>}{el.name}</li>
                 })}
             </ul>
         </div>
@@ -88,9 +87,9 @@ export default function Navigation() {
                         < SubCategory Icon={NoteAltOutlinedIcon}
                             title={'Notes'}
                             option={[
-                                { name: 'Quick Note', path: '' },
-                                { name: 'Todo', path: '' },
-                                { name: 'Task List', path: '' },
+                                { name: 'Quick Note', path: '/quick-note' },
+                                { name: 'Routine', path: '/routine' },
+                                { name: 'Todo', path: '/todo' },
                             ]}
                             id={2}
                             active={active}
@@ -101,10 +100,6 @@ export default function Navigation() {
                             title={'Notifications'}
                             alert={2}
                             handleClick={() => { handleNavigate('/notification') }} />
-                        < SubCategory1
-                            Icon={SmartToyIcon}
-                            title={'Ask AI'}
-                            handleClick={() => { handleNavigate('/login') }} />
                         < SubCategory1
                             Icon={LogoutOutlinedIcon}
                             title={'Logout'}

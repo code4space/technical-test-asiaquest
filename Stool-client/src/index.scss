@@ -41,6 +41,30 @@ body {
   }
 }
 
+@mixin h2 () {
+  border: none;
+  background: none;
+  outline: none;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: $primary-font;
+  color: $primary-black;
+  border-bottom: 1px solid rgb(210, 210, 210);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+@mixin p () {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  font-family: $primary-font;
+  color: $primary-black;
+  font-size: 16px;
+}
+
 ::-webkit-scrollbar {
   background:none;
   width: 8px;

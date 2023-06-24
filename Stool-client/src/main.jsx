@@ -7,6 +7,7 @@ import './assets/style/navigation.scss'
 import './assets/style/remainingTask.scss'
 import './assets/style/login.scss'
 import './assets/style/task.scss'
+import './assets/style/quicknote.scss'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

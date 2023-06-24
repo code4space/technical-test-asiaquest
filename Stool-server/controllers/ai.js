@@ -8,10 +8,9 @@ class AI {
   static async askAI(req, res, next) {
     try {
       const prompt = req.body.prompt;
-
       if (prompt === null) throw new Error("Prompt Required!");
       const response = await openai.createCompletion({
-        model: "text-davinci-002",
+        model: "text-davinci-003",
         prompt,
         max_tokens: 64,
       });

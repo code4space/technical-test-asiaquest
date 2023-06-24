@@ -5,6 +5,11 @@ import RemainingTaskPage from "../views/remainingTask";
 import TaskPage from "../views/task";
 import LoginPage from "../views/login";
 import RegisterPage from "../views/register";
+import CompletedTaskPage from "../views/completeTask";
+import TaskDetailPage from "../views/detailTask";
+import MissedTaskPage from "../views/missedTask";
+import NotificationPage from "../views/notifications";
+import QuickNotePage from "../views/quickNote";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +34,26 @@ const router = createBrowserRouter([
             {
                 path: '/task/start/:id',
                 element: <TaskPage />
+            },
+            {
+                path: '/task/completed',
+                element: <CompletedTaskPage />
+            },
+            {
+                path: '/task/missed',
+                element: <MissedTaskPage />
+            },
+            {
+                path: '/quick-note',
+                element: <QuickNotePage />
+            },
+            {
+                path: '/notification',
+                element: <NotificationPage />
+            },
+            {
+                path: '/task/detail/:id',
+                element: <TaskDetailPage />
             },
         ]
     }
