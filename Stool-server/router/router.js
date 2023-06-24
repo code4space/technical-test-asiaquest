@@ -16,20 +16,32 @@ route.use(validation)
 
 // Task
 route.post("/task", TeacherController.addTask);
-route.patch("/comment", TeacherController.addComment);
+route.patch("/comment/:id", TeacherController.addComment);
 route.get("/completed-task", TeacherController.completedTask);
-route.patch("/do-task", StudentController.doTask);
+route.patch("/do-task/:id", StudentController.doTask);
 route.get("/student/task", StudentController.getMyTask);
 
 // notification
 route.get("/notification", StudentController.getMyNotification);
 route.patch("/notification", StudentController.readNotification);
 
-// Note
+// quick note
 route.get("/quick-note", NoteController.getQuickNote);
 route.patch("/quick-note/:id", NoteController.updateQuickNote);
 route.post("/quick-note", NoteController.addQuickNote);
 route.delete("/quick-note/:id", NoteController.deleteQuickNote);
+
+// Routine
+route.get("/routine", NoteController.getRoutine);
+route.patch("/routine/:id", NoteController.updateRoutine);
+route.post("/routine", NoteController.addRoutine);
+route.delete("/routine/:id", NoteController.deleteRoutine);
+
+// Todo
+route.get("/todo", NoteController.getRoutine);
+route.patch("/todo/:id", NoteController.updateRoutine);
+route.post("/todo", NoteController.addRoutine);
+route.delete("/todo/:id", NoteController.deleteRoutine);
 
 // AI API
 route.post("/ask-ai", AI.askAI);

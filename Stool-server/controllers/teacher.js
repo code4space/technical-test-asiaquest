@@ -162,8 +162,7 @@ class TeacherController {
         },
         {
           where: {
-            TaskId,
-            StudentId,
+            id: +req.params.id
           },
         }
       );
@@ -216,17 +215,29 @@ class TeacherController {
       let task = await Task.findAll({
         where: {
           TeacherId: id,
-        },
+        }
       });
 
       let studentTask = [];
 
       for (const el of task) {
+        console.log(el.id)
         let result = await StudentTasks.findAll({
           where: {
             TaskId: el.id,
             status: "completed",
           },
+          attributes: [
+            "id",
+            "status",
+            "answer",
+            "answer1",
+            "comment",
+            "TaskId",
+            "StudentId",
+            "createdAt",
+            "updatedAt",
+          ]
         });
 
         if (result) {

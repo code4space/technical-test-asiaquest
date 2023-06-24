@@ -65,7 +65,7 @@ class StudentController {
 
   static async doTask(req, res, next) {
     try {
-      const { role, id } = req.user;
+      const { role } = req.user;
       const { TaskId, answer } = req.body;
       if (!TaskId) {
         return res.status(400).json({ message: "TaskId is required" });
@@ -78,8 +78,7 @@ class StudentController {
         { answer },
         {
           where: {
-            TaskId: +TaskId,
-            StudentId: id,
+            id: +req.params.id,
           },
         }
       );

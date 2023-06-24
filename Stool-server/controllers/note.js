@@ -6,6 +6,7 @@ const {
   Notification,
   StudentNotification,
   Note,
+  Routine,
 } = require("../models");
 
 class NoteController {
@@ -53,19 +54,20 @@ class NoteController {
   }
 
   static async addQuickNote(req, res, next) {
-    const { role, id } = req.user;
-    const { title, description } = req.body;
+    try {
+      const { role, id } = req.user;
+      const { title, description } = req.body;
 
-    if (role === "student") {
-      await Note.create({ title, description, StudentId: id });
-    } else {
-      await Note.create({ title, description, TeacherId: id });
+      if (role === "student") {
+        await Note.create({ title, description, StudentId: id });
+      } else {
+        await Note.create({ title, description, TeacherId: id });
+      }
+      return res.status(201).json({ message: "new Note has been created" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
-    return res.status(201).json({ message: "new Note has been created" });
-  }
-  catch(error) {
-    console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
   }
 
   static async deleteQuickNote(req, res, next) {
@@ -74,6 +76,117 @@ class NoteController {
         where: { id: +req.params.id },
       });
       return res.status(200).json({ message: "note deleted successfully" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async getRoutine(req, res, next) {
+    try {
+      const { role, id } = req.user;
+      let routine;
+      if (role === "student") {
+        routine = await Routine.findAll({
+          where: {
+            StudentId: id,
+          },
+          attributes: ["id", "title", "list"],
+        });
+      } else {
+        routine = await Routine.findAll({
+          where: {
+            TeacherId: id,
+          },
+          attributes: ["id", "title", "list"],
+        });
+      }
+
+      routine = routine.map((el) => {
+        // return JSON.parse(el.list);
+        var modifiedStr = "[" + el.list + "]";
+        var parsedArray = JSON.parse(modifiedStr);
+        return {
+          id: el.id,
+          title: el.title,
+          list: parsedArray,
+        };
+      });
+
+      return res.status(200).json({ routine });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async updateRoutine(req, res, next) {
+    try {
+      const { title, list } = req.body;
+
+      let temp = [
+        { desc: "Jogging", status: false },
+        { desc: "Read Book", status: true },
+        { desc: "Slep", status: false },
+        { desc: "Jogging", status: true },
+      ];
+
+      temp = temp.map((el) => {
+        return JSON.stringify(el);
+      });
+
+      temp = temp.join(",");
+
+      await Routine.update(
+        { title, list: temp },
+        {
+          where: { id: +req.params.id },
+        }
+      );
+      return res.status(202).json({ message: "Update Routine success" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async addRoutine(req, res, next) {
+    try {
+      const { role, id } = req.user;
+      const { title, list } = req.body;
+
+      let temp = [
+        { desc: "Jogging", status: true },
+        { desc: "Read Book", status: true },
+        { desc: "Slep", status: false },
+        { desc: "Jogging", status: true },
+      ];
+
+      temp = temp.map((el) => {
+        return JSON.stringify(el);
+      });
+
+      temp = temp.join(",");
+
+      if (role === "student") {
+        await Routine.create({ title, list: temp, StudentId: id });
+      } else {
+        await Routine.create({ title, list: temp, TeacherId: id });
+      }
+
+      return res.status(201).json({ message: "new Routine has been created" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+
+  static async deleteRoutine(req, res, next) {
+    try {
+      await Routine.destroy({
+        where: { id: +req.params.id },
+      });
+      return res.status(200).json({ message: "routine deleted successfully" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
