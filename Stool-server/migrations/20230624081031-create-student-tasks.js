@@ -18,6 +18,9 @@ module.exports = {
       answer1: {
         type: Sequelize.BLOB
       },
+      comment: {
+        type: Sequelize.TEXT
+      },
       TaskId: {
         type: Sequelize.INTEGER,
         allowNull: false,

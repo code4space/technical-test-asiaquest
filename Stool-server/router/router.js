@@ -16,6 +16,8 @@ route.use(validation)
 
 // Task
 route.post("/task", TeacherController.addTask);
+route.patch("/comment", TeacherController.addComment);
+route.get("/completed-task", TeacherController.completedTask);
 
 // AI API
 route.post("/ask-ai", AI.askAI);

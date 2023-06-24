@@ -1,6 +1,14 @@
 const { matchPassword } = require("../helper/bycrypt");
+const formatDate = require("../helper/dateFormatter");
 const { getToken } = require("../helper/jwt");
-const { Teacher, Task } = require("../models");
+const {
+  Teacher,
+  Task,
+  Student,
+  StudentTasks,
+  Notification,
+  StudentNotification,
+} = require("../models");
 
 class TeacherController {
   static async login(req, res, next) {
@@ -47,7 +55,7 @@ class TeacherController {
       if (!password) {
         return res.status(400).json({ message: "Password is required" });
       }
-        
+
       let user = await Teacher.create({ fullName, email, password });
       res.status(201).json({ id: user.id, name: user.fullName });
     } catch (error) {
@@ -65,9 +73,8 @@ class TeacherController {
   static async addTask(req, res, next) {
     try {
       const { date, title, description, GradeId } = req.body;
-      const {id, role} = req.user
-      console.log(date, title, description, GradeId)
-      if (role !== 'teacher') {
+      const { id, role, fullName } = req.user;
+      if (role !== "teacher") {
         return res.status(401).json({ message: "Forbidden" });
       }
       if (!date) {
@@ -83,12 +90,130 @@ class TeacherController {
         return res.status(400).json({ message: "GradeId is required" });
       }
 
-      await Task.create({ date, title, description, TeacherId: +id, GradeId });
+      let task = await Task.create({
+        date,
+        title,
+        description,
+        TeacherId: +id,
+        GradeId,
+      });
 
+      let student = await Student.findAll({
+        where: {
+          GradeId,
+        },
+      });
+
+      let notification = await Notification.create({
+        description: `${fullName} has assigned you a new task about ${title} that needs to be completed by ${formatDate(
+          date
+        )}`,
+        GradeId,
+      });
+
+      for (const studentProfile of student) {
+        await StudentTasks.create({
+          status: "remaining",
+          TaskId: task.id,
+          StudentId: studentProfile.id,
+        });
+
+        await StudentNotification.create({
+          status: false,
+          NotificationId: notification.id,
+          StudentId: studentProfile.id,
+        });
+      }
 
       res.status(201).json({ message: "Task has been added " });
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      if (
+        error.name == "SequelizeUniqueConstraintError" ||
+        error.name == "SequelizeValidationError"
+      ) {
+        res.status(400).json({ message: error.errors[0].message });
+      } else {
+        res.status(500).json({ message: error });
+      }
+    }
+  }
+
+  static async addComment(req, res, next) {
+    try {
+      const { comment, TaskId, StudentId } = req.body;
+      const { role } = req.user;
+      if (role !== "teacher") {
+        return res.status(401).json({ message: "Forbidden" });
+      }
+      if (!comment) {
+        return res.status(400).json({ message: "comment is required" });
+      }
+      if (!TaskId) {
+        return res.status(400).json({ message: "TaskId is required" });
+      }
+      if (!StudentId) {
+        return res.status(400).json({ message: "StudentId is required" });
+      }
+
+      await StudentTasks.update(
+        {
+          comment,
+        },
+        {
+          where: {
+            TaskId,
+            StudentId,
+          },
+        }
+      );
+
+      res.status(201).json({ message: "add comment success" });
+    } catch (error) {
+      console.log(error);
+      if (
+        error.name == "SequelizeUniqueConstraintError" ||
+        error.name == "SequelizeValidationError"
+      ) {
+        res.status(400).json({ message: error.errors[0].message });
+      } else {
+        res.status(500).json({ message: error });
+      }
+    }
+  }
+
+  static async completedTask(req, res, next) {
+    try {
+      const { role, id } = req.user;
+      if (role !== "teacher") {
+        return res.status(401).json({ message: "Forbidden" });
+      }
+
+      let task = await Task.findAll({
+        where: {
+          TeacherId: id,
+        },
+      });
+
+      let studentTask = [];
+
+      for (const el of task) {
+        let result = await StudentTasks.findAll({
+          where: {
+            TaskId: el.id,
+            status: "completed",
+          },
+        });
+
+        if (result) {
+          studentTask.push(result);
+        }
+      }
+
+      res.status(200).json({ completed: studentTask.flat(Infinity) });
+      
+    } catch (error) {
+      console.log(error);
       if (
         error.name == "SequelizeUniqueConstraintError" ||
         error.name == "SequelizeValidationError"

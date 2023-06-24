@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       answer1: {
         type: DataTypes.BLOB("long"),
       },
+      comment: {
+        type: DataTypes.TEXT
+      },
       TaskId: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -13,5 +13,4 @@ app.use(route);
 
 app.listen(port, () => {
   console.log(`app running on port ${port}`);
-  console.log(new Date())
 });
