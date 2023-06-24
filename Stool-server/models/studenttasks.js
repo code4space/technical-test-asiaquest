@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class StudentTasks extends Model {
     /**
@@ -10,16 +8,47 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      StudentTasks.belongsTo(models.Task, { foreignKey: "TaskId" });
+      StudentTasks.belongsTo(models.Student, { foreignKey: "StudentId" });
     }
   }
-  StudentTasks.init({
-    status: DataTypes.STRING,
-    answer: DataTypes.STRING,
-    answer1: DataTypes.BLOB
-  }, {
-    sequelize,
-    modelName: 'StudentTasks',
-  });
+  StudentTasks.init(
+    {
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "status is required" },
+          notNull: { msg: "status is required" },
+        },
+      },
+      answer: {
+        type: DataTypes.TEXT,
+      },
+      answer1: {
+        type: DataTypes.BLOB("long"),
+      },
+      TaskId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "TaskId is required" },
+          notNull: { msg: "TaskId is required" },
+        },
+      },
+      StudentId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: "StudentId is required" },
+          notNull: { msg: "StudentId is required" },
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "StudentTasks",
+    }
+  );
   return StudentTasks;
 };

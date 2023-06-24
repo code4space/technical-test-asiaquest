@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      NotificationID: {
+      NotificationId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -23,7 +23,7 @@ module.exports = {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      StudentID: {
+      StudentId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

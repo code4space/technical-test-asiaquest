@@ -21,12 +21,12 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "description is required" },
         },
       },
-      GradeID: {
+      GradeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "GradeID is required" },
-          notNull: { msg: "GradeID is required" },
+          notEmpty: { msg: "GradeId is required" },
+          notNull: { msg: "GradeId is required" },
         },
       },
     },

@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      StudentNotification.belongsTo(models.Notification, { foreignKey: "NotificationID" });
-      StudentNotification.belongsTo(models.Student, { foreignKey: "StudentID" });
+      StudentNotification.belongsTo(models.Notification, { foreignKey: "NotificationId" });
+      StudentNotification.belongsTo(models.Student, { foreignKey: "StudentId" });
     }
   }
   StudentNotification.init(
@@ -22,20 +22,20 @@ module.exports = (sequelize, DataTypes) => {
           notNull: { msg: "status is required" },
         },
       },
-      NotificationID: {
+      NotificationId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "NotificationID is required" },
-          notNull: { msg: "NotificationID is required" },
+          notEmpty: { msg: "NotificationId is required" },
+          notNull: { msg: "NotificationId is required" },
         },
       },
-      StudentID: {
+      StudentId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "StudentID is required" },
-          notNull: { msg: "StudentID is required" },
+          notEmpty: { msg: "StudentId is required" },
+          notNull: { msg: "StudentId is required" },
         },
       },
     },

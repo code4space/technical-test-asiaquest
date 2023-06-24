@@ -13,10 +13,30 @@ module.exports = {
         type: Sequelize.STRING
       },
       answer: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       answer1: {
         type: Sequelize.BLOB
+      },
+      TaskId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Tasks",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
+      },
+      StudentId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Students",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
       },
       createdAt: {
         allowNull: false,

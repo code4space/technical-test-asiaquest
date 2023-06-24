@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Student.belongsTo(models.Grade);
+      Student.hasMany(models.Note);
+      Student.hasMany(models.Todo);
+      Student.hasMany(models.Routine);
+      Student.belongsToMany(models.Task, { through: models.StudentTask });
       Student.belongsToMany(models.Notification, { through: models.StudentNotification });
     }
   }
@@ -43,12 +47,12 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      GradeID: {
+      GradeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "GradeID is required" },
-          notNull: { msg: "GradeID is required" },
+          notEmpty: { msg: "GradeId is required" },
+          notNull: { msg: "GradeId is required" },
         },
       },
     },

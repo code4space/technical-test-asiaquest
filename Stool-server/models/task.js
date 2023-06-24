@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Task.belongsTo(models.Grade);
       Task.belongsTo(models.Teacher);
+      Task.belongsToMany(models.Student, { through: models.StudentTask });
     }
   }
   Task.init({
@@ -31,20 +32,20 @@ module.exports = (sequelize, DataTypes) => {
         notNull: { msg: "status is required" },
       },
     },
-    TeacherID: {
+    TeacherId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "TeacherID is required" },
-          notNull: { msg: "TeacherID is required" },
+          notEmpty: { msg: "TeacherId is required" },
+          notNull: { msg: "TeacherId is required" },
         },
       },
-    GradeID: {
+    GradeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notEmpty: { msg: "GradeID is required" },
-          notNull: { msg: "GradeID is required" },
+          notEmpty: { msg: "GradeId is required" },
+          notNull: { msg: "GradeId is required" },
         },
       },
   }, {

@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
   class Teacher extends Model {
     static associate(models) {
       Teacher.hasMany(models.Task);
+      Teacher.hasMany(models.Note);
+      Teacher.hasMany(models.Todo);
+      Teacher.hasMany(models.Routine);
     }
   }
   Teacher.init(
