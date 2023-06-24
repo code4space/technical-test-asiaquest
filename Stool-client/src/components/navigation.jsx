@@ -14,7 +14,10 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNotification, getTask } from "../store/actions/studentAction";
+import { getQuickNote, getRoutine, getTodo, quickNoteFetchSuccess } from "../store/actions/noteAction";
 
 function SubCategory({ Icon, title, option, id, active, setActive }) {
 
@@ -24,9 +27,35 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
         if (id === active) return setActive(null)
         setActive(id)
     }
-    function navigationTo (path) {
+    function navigationTo(path) {
         navigate(path)
     }
+
+    const dispatch = useDispatch();
+    const task = useSelector((state) => {
+        return state.StudentReducer.task;
+    });
+    const notification = useSelector((state) => {
+        return state.StudentReducer.notification;
+    });
+    const quickNote = useSelector((state) => {
+        return state.NoteReducer.quickNote;
+    });
+    const routine = useSelector((state) => {
+        return state.NoteReducer.routine;
+    });
+    const todo = useSelector((state) => {
+        return state.NoteReducer.todo;
+    });
+    console.log(todo)
+
+    useEffect(() => {
+        dispatch(getTask());
+        dispatch(getNotification());
+        dispatch(getQuickNote());
+        dispatch(getRoutine());
+        dispatch(getTodo());
+    }, []);
 
     return (
         <div className={id === active ? "sub-category-container active" : "sub-category-container"}>
@@ -37,7 +66,7 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
             </div>
             <ul>
                 {option.map((el, i) => {
-                    return <li className={location.pathname === option[i].path ? "active":null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon/>:<CircleOutlinedIcon/>}{el.name}</li>
+                    return <li className={location.pathname === option[i].path ? "active" : null} key={i} onClick={() => navigationTo(option[i].path)}>{location.pathname === option[i].path ? <CircleIcon /> : <CircleOutlinedIcon />}{el.name}</li>
                 })}
             </ul>
         </div>

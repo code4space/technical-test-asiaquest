@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPokemon } from "../store/actions/fetch";
+import { getPokemon } from "../store/actions/teacherAction";
 
 
 export default function HomePage() {
@@ -10,6 +10,8 @@ export default function HomePage() {
     const pokemon = useSelector((state) => {
         return state.TeacherReducer.pokemon;
     });
+
+    // console.log(pokemon)
 
     useEffect(() => {
         dispatch(getPokemon());
