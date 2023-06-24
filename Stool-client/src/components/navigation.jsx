@@ -73,6 +73,11 @@ export default function Navigation() {
         navigate(route)
     }
 
+    function logout() {
+        localStorage.clear()
+        navigate('/login')
+    }
+
     const dispatch = useDispatch();
     const notification = useSelector((state) => state.StudentReducer.notification);
     useEffect(() => {
@@ -93,7 +98,7 @@ export default function Navigation() {
         <>
             <div className="navigation-container">
                 <div className={isMinimize ? "side-navigation minimize" : "side-navigation"}>
-                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Schoot</h2>
+                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Stool</h2>
                     <div className="category">
                         <h4>Menu</h4>
                         {localStorage.getItem('role') === "student" ?
@@ -146,7 +151,7 @@ export default function Navigation() {
                         < SubCategory1
                             Icon={LogoutOutlinedIcon}
                             title={'Logout'}
-                            handleClick={() => { handleNavigate('/login') }} />
+                            handleClick={logout} />
                     </div>
                     <div className="category">
                         <h4>Profile</h4>

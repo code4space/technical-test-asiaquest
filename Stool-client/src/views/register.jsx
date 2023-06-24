@@ -20,7 +20,7 @@ export default function RegisterPage() {
         <div className='login-container'>
             <div className='border-container'>
                 <div className='login-box'>
-                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Schoot</h2>
+                    <h2><SchoolIcon style={{ fontSize: '50px' }} /> Stool</h2>
                     <h3>SIGN Up</h3>
                     <form className='input-container' onSubmit={handleButton}>
 
