@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Task.belongsTo(models.Grade);
       Task.belongsTo(models.Teacher);
-      Task.belongsToMany(models.Student, { through: models.StudentTask });
+      Task.belongsToMany(models.Student, { through: models.StudentTasks });
     }
   }
   Task.init({
@@ -22,6 +22,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: { msg: "date is required" },
         notNull: { msg: "date is required" },
+      },
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: "title is required" },
+        notNull: { msg: "title is required" },
       },
     },
     description: {

@@ -1,18 +1,14 @@
 "use strict";
 const { Model } = require("sequelize");
+const { hashPassword } = require("../helper/bycrypt");
 module.exports = (sequelize, DataTypes) => {
   class Student extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
       Student.belongsTo(models.Grade);
       Student.hasMany(models.Note);
       Student.hasMany(models.Todo);
       Student.hasMany(models.Routine);
-      Student.belongsToMany(models.Task, { through: models.StudentTask });
+      Student.belongsToMany(models.Task, { through: models.StudentTasks });
       Student.belongsToMany(models.Notification, { through: models.StudentNotification });
     }
   }
@@ -61,5 +57,8 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Student",
     }
   );
+  Student.beforeCreate((user, opt) => {
+    user.password = hashPassword(user.password);
+  });
   return Student;
 };
