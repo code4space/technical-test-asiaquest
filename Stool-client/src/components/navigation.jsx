@@ -32,29 +32,29 @@ function SubCategory({ Icon, title, option, id, active, setActive }) {
     }
 
     const dispatch = useDispatch();
-    const task = useSelector((state) => {
-        return state.StudentReducer.task;
-    });
-    const notification = useSelector((state) => {
-        return state.StudentReducer.notification;
-    });
-    const quickNote = useSelector((state) => {
-        return state.NoteReducer.quickNote;
-    });
-    const routine = useSelector((state) => {
-        return state.NoteReducer.routine;
-    });
-    const todo = useSelector((state) => {
-        return state.NoteReducer.todo;
-    });
-    console.log(todo)
+    // const task = useSelector((state) => {
+    //     return state.StudentReducer.task;
+    // });
+    // const notification = useSelector((state) => {
+    //     return state.StudentReducer.notification;
+    // });
+    // const quickNote = useSelector((state) => {
+    //     return state.NoteReducer.quickNote;
+    // });
+    // const routine = useSelector((state) => {
+    //     return state.NoteReducer.routine;
+    // });
+    // const todo = useSelector((state) => {
+    //     return state.NoteReducer.todo;
+    // });
+    // console.log(todo)
 
     useEffect(() => {
-        dispatch(getTask());
-        dispatch(getNotification());
-        dispatch(getQuickNote());
-        dispatch(getRoutine());
-        dispatch(getTodo());
+        // dispatch(getTask());
+        // dispatch(getNotification());
+        // dispatch(getQuickNote());
+        // dispatch(getRoutine());
+        // dispatch(getTodo());
     }, []);
 
     return (

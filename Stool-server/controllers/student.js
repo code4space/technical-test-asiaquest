@@ -38,6 +38,32 @@ class StudentController {
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
+
+  static async register(req, res, next) {
+    try {
+      const { fullName, email, password, GradeId } = req.body;
+      if (!fullName)
+        return res.status(400).json({ message: "Username is required" });
+      if (!email) return res.status(400).json({ message: "email is required" });
+      if (!password)
+        return res.status(400).json({ message: "Password is required" });
+      if (!GradeId)
+        return res.status(400).json({ message: "GradeId is required" });
+
+      let user = await Student.create({ fullName, email, password, GradeId });
+      res.status(201).json({ id: user.id, name: user.fullName });
+    } catch (error) {
+      if (
+        error.name == "SequelizeUniqueConstraintError" ||
+        error.name == "SequelizeValidationError"
+      ) {
+        res.status(400).json({ message: error.errors[0].message });
+      } else {
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+    }
+  }
+  
   static async register(req, res, next) {
     try {
       const { fullName, email, password, GradeId } = req.body;
@@ -66,16 +92,13 @@ class StudentController {
   static async doTask(req, res, next) {
     try {
       const { role } = req.user;
-      const { TaskId, answer } = req.body;
-      if (!TaskId) {
-        return res.status(400).json({ message: "TaskId is required" });
-      }
+      const { answer } = req.body;
       if (role !== "student") {
         return res.status(401).json({ message: "Forbidden" });
       }
 
       await StudentTasks.update(
-        { answer },
+        { answer, status: 'completed' },
         {
           where: {
             id: +req.params.id,

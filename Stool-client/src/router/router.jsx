@@ -35,7 +35,7 @@ const router = createBrowserRouter([
                 element: <RemainingTaskPage />
             },
             {
-                path: '/task/start/:id',
+                path: '/task/start',
                 element: <TaskPage />
             },
             {
