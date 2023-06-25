@@ -34,8 +34,9 @@ export default function TaskDetailPage() {
                 <p>{state.description}</p>
                 <br />
                 <h3>Your Answer <i>read only</i></h3>
-                {/* <InputFile state={data} setState={setData} /> */}
                 <Textarea readOnly={true} state={state.answer} />
+                <h3 style={{marginTop: '30px'}}>Comment <i>by author</i></h3>
+                <Textarea readOnly={true} state={state.comment} />
                 <button onClick={back}>back</button>
             </div>
         </div>
