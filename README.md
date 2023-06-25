@@ -38,6 +38,7 @@ Siapkan folder project, lalu buka address folder tersebut di terminal dan lakuka
 [PostgreSQL]: https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white
 [Express-url]: https://expressjs.com/
 [Postgres-url]: https://www.postgresql.org/
+[demo-url]: https://www.loom.com/share/d5962b1926d24607a61349afaed52d88?sid=22a49585-14fc-4f5f-8659-a939dd847ce5
 
 
 &nbsp;
@@ -96,9 +97,9 @@ Entity Relation dapat dilihat di Stool-server, dengan nama ERD.png
  &nbsp;
 
 ## Lainnya
-
+link video [demo](https://www.loom.com/share/d5962b1926d24607a61349afaed52d88?sid=9ab27690-36ff-4e2f-b0c2-42d7c956a196)
 ```js
-Video Demo dan ppt terdapat di root directory project, sedangkan database terdapat di server side
+ppt terdapat di root directory project, sedangkan database terdapat di server side
 ```
 
  &nbsp;
