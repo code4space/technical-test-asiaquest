@@ -23,6 +23,8 @@ export default function StudentCompletedTaskPage() {
         navigate(`/task/student/comment`, { state: data })
     }
 
+    console.log(task)
+
     function formatDate(dateString) {
         const months = [
             'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',

@@ -21,6 +21,8 @@ export default function TaskStudentCommentPage() {
         setLoading(false)
     }, [])
 
+    console.log(state)
+
     async function submit(e) {
         e.preventDefault()
         await axios({
@@ -53,7 +55,7 @@ export default function TaskStudentCommentPage() {
                     <p>{state.Task.description}</p>
                     <br />
                     <h3>Answer</h3>
-                    {/* <Textarea readOnly={true} state={state.answer} /> */}
+                    <Textarea readOnly={true} state={state.answer} />
                     <h3 style={{ marginTop: '30px' }}>Your comment</h3>
                     <Textarea state={comment} setState={setComment} />
                     <button type="submit">submit</button>

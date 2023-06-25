@@ -41,6 +41,7 @@ class StudentController {
 
   static async register(req, res, next) {
     try {
+      console.log('masuk')
       const { fullName, email, password, GradeId } = req.body;
       if (!fullName)
         return res.status(400).json({ message: "Username is required" });
