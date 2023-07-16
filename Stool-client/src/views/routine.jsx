@@ -44,9 +44,10 @@ function Note({ options = false, id }) {
 
     function handleChange(e, index) {
         const temp = [...contentTemp];
-        temp[index].desc = e.target.value;
+        temp[index] = { ...temp[index], desc: e.target.value };
         setContentTemp(temp);
-    }
+      }
+      
 
     function deleteOption(index) {
         const temp = [...contentTemp];
@@ -67,7 +68,7 @@ function Note({ options = false, id }) {
             url: `${baseUrl}/routine/${id}`,
             method: 'PATCH',
             headers: { access_token: localStorage.getItem('access_token') },
-            data: {title: title, list: temp}
+            data: { title: title, list: temp }
         });
         dispatch(getRoutine());
     }

@@ -135,7 +135,7 @@ export default function TodoPage() {
                     <div className="activity">
                         <div className="left pink">
                             <p>To Do</p>
-                            <span>0</span>
+                            <span>{todo.length}</span>
                         </div>
                         <div className="right">
                             <span className="icon">&#43;
@@ -154,7 +154,7 @@ export default function TodoPage() {
                     <div className="activity">
                         <div className="left yellow">
                             <p>Doing &#128170;</p>
-                            <span>0</span>
+                            <span>{doing.length}</span>
                         </div>
                         <div className="right">
                             <span className="icon">&#43;
@@ -173,7 +173,7 @@ export default function TodoPage() {
                     <div className="activity">
                         <div className="left green">
                             <p>Done &#127937;</p>
-                            <span>0</span>
+                            <span>{done.length}</span>
                         </div>
                         <div className="right">
                             <span className="icon">&#43;
