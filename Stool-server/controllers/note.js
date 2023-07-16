@@ -16,6 +16,7 @@ class NoteController {
             StudentId: id,
           },
           attributes: ["id", "title", "description"],
+          order: [['id', 'ASC']]
         });
       } else {
         note = await Note.findAll({
@@ -23,6 +24,7 @@ class NoteController {
             TeacherId: id,
           },
           attributes: ["id", "title", "description"],
+          order: [['id', 'ASC']]
         });
       }
 
@@ -165,6 +167,7 @@ class NoteController {
             StudentId: id,
           },
           attributes: ["id", "title", "list"],
+          order: [["id", "ASC"]]
         });
       } else {
         routine = await Routine.findAll({
@@ -172,6 +175,7 @@ class NoteController {
             TeacherId: id,
           },
           attributes: ["id", "title", "list"],
+          order: [["id", "ASC"]]
         });
       }
 
