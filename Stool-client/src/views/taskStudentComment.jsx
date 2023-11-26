@@ -21,8 +21,6 @@ export default function TaskStudentCommentPage() {
         setLoading(false)
     }, [])
 
-    console.log(state)
-
     async function submit(e) {
         e.preventDefault()
         await axios({

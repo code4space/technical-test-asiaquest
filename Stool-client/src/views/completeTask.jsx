@@ -17,8 +17,6 @@ export default function CompletedTaskPage() {
         dispatch(getTask())
     }, [dispatch]);
 
-    console.log(task)
-
     useEffect(() => {
         async function fetchData() {
             try {

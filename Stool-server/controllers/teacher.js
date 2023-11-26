@@ -127,7 +127,6 @@ class TeacherController {
 
       res.status(201).json({ message: "Task has been added " });
     } catch (error) {
-      console.log(error);
       if (
         error.name == "SequelizeUniqueConstraintError" ||
         error.name == "SequelizeValidationError"
@@ -219,7 +218,6 @@ class TeacherController {
       let studentTask = [];
 
       for (const el of task) {
-        console.log(el.id)
         let result = await StudentTasks.findAll({
           where: {
             TaskId: el.id,
@@ -236,14 +234,22 @@ class TeacherController {
             "createdAt",
             "updatedAt",
           ],
-          include: {
-            model: Task,
-            attributes: [
-              'description',
-              'title',
-              'date',
-            ]
-          }
+          include: [
+            {
+              model: Task,
+              attributes: [
+                'description',
+                'title',
+                'date',
+              ]
+            },
+            {
+              model: Student,
+              attributes: [
+                'fullName',
+              ]
+            },
+          ]
         });
 
         if (result) {

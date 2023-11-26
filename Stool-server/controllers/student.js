@@ -34,14 +34,12 @@ class StudentController {
       const access_token = getToken(payload);
       res.status(200).json({ access_token, name: user.fullName });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
 
   static async register(req, res, next) {
     try {
-      console.log('masuk')
       const { fullName, email, password, GradeId } = req.body;
       if (!fullName)
         return res.status(400).json({ message: "Username is required" });
@@ -202,7 +200,6 @@ class StudentController {
 
       res.status(200).json({ result });
     } catch (error) {
-      console.log(error);
       if (
         error.name == "SequelizeUniqueConstraintError" ||
         error.name == "SequelizeValidationError"
@@ -234,7 +231,6 @@ class StudentController {
 
       res.status(202).json({ message: "Update Notification Success" });
     } catch (error) {
-      console.log(error);
       if (
         error.name == "SequelizeUniqueConstraintError" ||
         error.name == "SequelizeValidationError"

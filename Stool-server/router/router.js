@@ -5,7 +5,7 @@ const TeacherController = require("../controllers/teacher");
 const StudentController = require("../controllers/student");
 const NoteController = require("../controllers/note");
 
-// Login/Register API
+//* Login/Register API
 route.post("/teacher/login", TeacherController.login);
 route.post("/teacher/register", TeacherController.register);
 
@@ -14,36 +14,36 @@ route.post("/student/register", StudentController.register);
 
 route.use(validation)
 
-// Task
+//* Task
 route.post("/task", TeacherController.addTask);
 route.patch("/comment/:id", TeacherController.addComment);
 route.get("/completed-task", TeacherController.completedTask);
 route.patch("/do-task/:id", StudentController.doTask);
 route.get("/student/task", StudentController.getMyTask);
 
-// notification
+//* notification
 route.get("/notification", StudentController.getMyNotification);
 route.patch("/notification", StudentController.readNotification);
 
-// quick note
+//* quick note
 route.get("/quick-note", NoteController.getQuickNote);
 route.patch("/quick-note/:id", NoteController.updateQuickNote);
 route.post("/quick-note", NoteController.addQuickNote);
 route.delete("/quick-note/:id", NoteController.deleteQuickNote);
 
-// Routine
+//* Routine
 route.get("/routine", NoteController.getRoutine);
 route.patch("/routine/:id", NoteController.updateRoutine);
 route.post("/routine", NoteController.addRoutine);
 route.delete("/routine/:id", NoteController.deleteRoutine);
 
-// Todo
+//* Todo
 route.get("/todo", NoteController.getTodo);
 route.patch("/todo/:id", NoteController.updateTodo);
 route.post("/todo", NoteController.addTodo);
 route.delete("/todo/:id", NoteController.deleteTodo);
 
-// AI API
+//* AI API
 route.post("/ask-ai", AI.askAI);
 
 module.exports = route;

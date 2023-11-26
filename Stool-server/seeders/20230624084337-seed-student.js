@@ -5,7 +5,7 @@ const { hashPassword } = require("../helper/bycrypt");
 module.exports = {
   async up(queryInterface, Sequelize) {
     const data = [
-      {fullName: 'William Wijaya', email: 'William@gmail.com', password: hashPassword('12345'), GradeId: 3},
+      {fullName: 'User', email: 'user@gmail.com', password: hashPassword('12345'), GradeId: 3},
       {fullName: 'Eko Jo', email: 'Eko@gmail.com', password: hashPassword('12345'), GradeId: 2},
       {fullName: 'Bambang Gaya', email: 'Bambang@gmail.com', password: hashPassword('12345'), GradeId: 3},
     ]

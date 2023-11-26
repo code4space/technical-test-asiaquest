@@ -1,6 +1,5 @@
-import PersonIcon from '@mui/icons-material/Person';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import Person2Icon from '@mui/icons-material/Person2';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,8 +21,6 @@ export default function StudentCompletedTaskPage() {
         const data = task[index];
         navigate(`/task/student/comment`, { state: data })
     }
-
-    console.log(task)
 
     function formatDate(dateString) {
         const months = [
@@ -54,7 +51,9 @@ export default function StudentCompletedTaskPage() {
                         <div className="card" key={i}>
                             <h3 className='title'>{el.Task.title}</h3>
                             <p>{el.Task.description}</p>
+                            <div><Person2Icon /><b>Student Name:</b> {el.Student.fullName}</div>
                             <div><AccessTimeIcon /><b>Deadline:</b> {formatDate(el.Task.date)}</div>
+
                             <button onClick={() => handleNavigate(i)}>See detail</button>
                         </div>
                     )

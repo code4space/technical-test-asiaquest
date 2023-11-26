@@ -3,7 +3,7 @@
 .navigation-container {
     display: flex;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
 }
 
 .side-navigation {
@@ -31,6 +31,20 @@
 .side-navigation.minimize {
     max-width: 0px;
     padding: 10px 0;
+}
+
+.mobile .side-navigation {
+    position: absolute;
+    z-index: 100;
+}
+
+.bg-blur {
+    position: fixed;
+    z-index: 99;
+    width: 100vw;
+    height: 100dvh;
+    backdrop-filter: blur(5px);
+    background-color: rgba(58, 58, 58, 0.116);
 }
 
 .container {
@@ -161,11 +175,15 @@
 
 .introduction h2 {
     @include center-horizontal;
+    font-size: clamp(14px, 3.8vw, 20px);
+    text-align: center;
 }
 
 .introduction p {
     font-size: 13px;
     color: $gray1;
+    text-align: center;
+    font-size: clamp(8px, 2.8vw, 20px);
 }
 
 .minimize.top-navigation {

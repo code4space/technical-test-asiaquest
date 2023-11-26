@@ -137,7 +137,7 @@ export default function TodoPage() {
                             <p>To Do</p>
                             <span>{todo.length}</span>
                         </div>
-                        <div className="right">
+                        <div className="right" onClick={() => buttonNew('To Do')}>
                             <span className="icon">&#43;
                                 <span className="desc">create new</span>
                             </span>
@@ -156,7 +156,7 @@ export default function TodoPage() {
                             <p>Doing &#128170;</p>
                             <span>{doing.length}</span>
                         </div>
-                        <div className="right">
+                        <div className="right" onClick={() => buttonNew('Doing')}>
                             <span className="icon">&#43;
                                 <span className="desc">create new</span>
                             </span>
@@ -175,7 +175,7 @@ export default function TodoPage() {
                             <p>Done &#127937;</p>
                             <span>{done.length}</span>
                         </div>
-                        <div className="right">
+                        <div className="right" onClick={() => buttonNew('Done')}>
                             <span className="icon">&#43;
                                 <span className="desc">create new</span>
                             </span>

@@ -37,7 +37,7 @@ export default function MissedTaskPage() {
                     <div className="card" key={i}>
                         <h3 className='title'>{el.title}</h3>
                         <p>{el.description}</p>
-                        <div><PersonIcon /><b>Author:</b> {el.author}</div>
+                        <div><PersonIcon /><b>Teacher:</b> {el.author}</div>
                         <div><ArrowCircleUpIcon /><b>Release Date:</b> {el.releaseDate}</div>
                         <div><AccessTimeIcon /><b>Deadline:</b> {el.deadline}</div>
                         {/* <button>Request an extension</button> */}

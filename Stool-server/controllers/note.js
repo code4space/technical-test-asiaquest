@@ -30,7 +30,6 @@ class NoteController {
 
       return res.status(200).json({ note });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -46,7 +45,6 @@ class NoteController {
       );
       return res.status(202).json({ message: "Update Note success" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -63,7 +61,6 @@ class NoteController {
       }
       return res.status(201).json({ message: "new Note has been created" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -75,7 +72,6 @@ class NoteController {
       });
       return res.status(200).json({ message: "note deleted successfully" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -96,10 +92,9 @@ class NoteController {
           where: {
             TeacherId: id,
           },
-          attributes: ["id", "task", "status", "comment"],
+          attributes: ["id", "task", "status", "comment", 'createdAt'],
         });
       }
-
       todo = todo.map(el => {
         const {id, task, status, comment, createdAt} = el
         return {id, task, status, comment, createdAt:formatDate(createdAt)}
@@ -107,7 +102,6 @@ class NoteController {
 
       return res.status(200).json({ todo });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -123,7 +117,6 @@ class NoteController {
       );
       return res.status(202).json({ message: "Update Todo success" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -140,7 +133,6 @@ class NoteController {
       }
       return res.status(201).json({ message: "new Todo has been created" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -152,7 +144,6 @@ class NoteController {
       });
       return res.status(200).json({ message: "Todo deleted successfully" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -180,7 +171,6 @@ class NoteController {
       }
 
       routine = routine.map((el) => {
-        // return JSON.parse(el.list);
         var modifiedStr = "[" + el.list + "]";
         var parsedArray = JSON.parse(modifiedStr);
         return {
@@ -192,7 +182,6 @@ class NoteController {
 
       return res.status(200).json({ routine });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -217,7 +206,6 @@ class NoteController {
       );
       return res.status(202).json({ message: "Update Routine success" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -243,7 +231,6 @@ class NoteController {
 
       return res.status(201).json({ message: "new Routine has been created" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }
@@ -255,7 +242,6 @@ class NoteController {
       });
       return res.status(200).json({ message: "routine deleted successfully" });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "Internal Server Error" });
     }
   }

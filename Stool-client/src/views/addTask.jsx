@@ -36,7 +36,7 @@ export default function AddTaskPage() {
                     url: baseUrl + `/task`,
                     method: "POST",
                     headers: { access_token: localStorage.getItem("access_token") },
-                    data: { date, title, description, GradeId:grade }
+                    data: { date, title, description, GradeId: grade }
                 }).then(() => {
                     Swal.fire({
                         position: 'top-end',
@@ -56,16 +56,16 @@ export default function AddTaskPage() {
     return (
         <div className="task-container">
             <form className="task add-task" onSubmit={add}>
-                <span><b>Add Task</b></span>
+                <span style={{fontSize: '20px'}}><b>Add Task</b></span>
                 <Input placeHolder={'title'} state={title} setState={setTitle} />
                 <Textarea placeHolder={'description'} state={description} setState={setDescription} />
                 <select required value={grade} onChange={(e) => setGrade(e.target.value)} className="detail-content">
-
                     <option value="" defaultValue={''} disabled>grade</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
                 </select>
+                <span><b>Deadline</b></span>
                 <input required type="date" value={date} onChange={(e) => { setDate(e.target.value) }} />
                 <input required type="time" value={time} onChange={(e) => { setTime(e.target.value) }} />
                 <button type="submit">Add</button>

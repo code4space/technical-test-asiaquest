@@ -66,6 +66,7 @@ export default function Navigation() {
     const [isMinimize, setMinimize] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
     const [countNew, setCountNew] = useState(0)
+    const [isMobile, setIsMobile] = useState(false);
 
     const navigate = useNavigate()
 
@@ -80,6 +81,26 @@ export default function Navigation() {
 
     const dispatch = useDispatch();
     const notification = useSelector((state) => state.StudentReducer.notification);
+
+    function handleMinimizeClick() {
+        setMinimize(prevState => !prevState);
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isMobileDevice = window.innerWidth <= 768;
+            setIsMobile(isMobileDevice);
+        };
+
+        handleResize();  // Call it initially
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     useEffect(() => {
         if (localStorage.getItem('role') === 'student') dispatch(getNotification())
     }, [dispatch]);
@@ -96,7 +117,8 @@ export default function Navigation() {
 
     return (
         <>
-            <div className="navigation-container">
+            <div className={`navigation-container ${isMobile ? 'mobile' : ''}`}>
+                {(isMobile && !isMinimize) && <div className="bg-blur" onClick={handleMinimizeClick}></div>}
                 <div className={isMinimize ? "side-navigation minimize" : "side-navigation"}>
                     <h2><SchoolIcon style={{ fontSize: '50px' }} /> Stool</h2>
                     <div className="category">
@@ -165,12 +187,12 @@ export default function Navigation() {
                         </div>
                     </div>
                 </div>
-                <div className={isMinimize ? "container minimize" : "container"}>
+                <div className={isMinimize ? "container minimize" : "container"} style={isMobile ? {width: '100%'} : {}}>
                     <div className={isMinimize ? "top-navigation minimize" : "top-navigation"}>
                         <span
                             onMouseEnter={() => setIsHovered(true)}
                             onMouseLeave={() => setIsHovered(false)}
-                            onClick={() => setMinimize(!isMinimize)}>{isMinimize && !isHovered ? <MenuOutlinedIcon /> : <ChevronLeftOutlinedIcon />}</span>
+                            onClick={handleMinimizeClick}>{isMinimize && !isHovered ? <MenuOutlinedIcon /> : <ChevronLeftOutlinedIcon />}</span>
                         <div className="introduction">
                             <h2>Welcome, {localStorage.getItem('name')}&nbsp;<CelebrationIcon /></h2>
                             <p>{localStorage.getItem('role') === 'student' ? 'Are you ready to complete the task?' : 'Teachers at the Heart of Education'}</p>

@@ -99,7 +99,7 @@ export function Textarea({ readOnly=false, state, setState, value, placeHolder }
 
     function checkValue() {
         if (value) return state[value]
-        else return state
+        else return toString(state) 
     }
 
     return (

@@ -15,7 +15,7 @@ export default function TaskDetailPage() {
         Swal.fire({
             icon: 'question',
             iconHtml: '?',
-            html: `<div><b>Author:</b> ${state.author}</div>
+            html: `<div><b>Teacher:</b> ${state.author}</div>
             <div><b>Release Date:</b> ${state.releaseDate}</div>
             <div><b>Deadline:</b> ${state.deadline}</div>`
         })
@@ -35,7 +35,7 @@ export default function TaskDetailPage() {
                 <br />
                 <h3>Your Answer <i>read only</i></h3>
                 <Textarea readOnly={true} state={state.answer} />
-                <h3 style={{marginTop: '30px'}}>Comment <i>by author</i></h3>
+                <h3 style={{marginTop: '30px'}}>Comment <i>by teacher</i></h3>
                 <Textarea readOnly={true} state={state.comment} />
                 <button onClick={back}>back</button>
             </div>
